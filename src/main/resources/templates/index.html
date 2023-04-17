@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Music Archive</title>
+        <h1 class="text-center" style="color: aqua;">MUSIC APP WELCOME PAGE</h1>
+        
+</head>
+<body bgcolor="bg-gray-800">
+    
+    <div>
+    <div>
+        <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" style="border: 0cap; border-radius: 0ch;" />
+        <button type="submit" value="Upload" class="bg-gray-200" style="display: flex;">Upload</button>
+    </form>
+   </div>
+   </div>
+    
+    
+    <div>
+        <table>
+            <thead>
+            <tr>
+             <th class="bg-gray-900" scope="col" style="color:royalblue">Song Name</th>
+             <th class="bg-gray-900" scope="col" style="color:blueviolet">Audio</th>
+            </tr>
+            </thead>
+            <tr th:each="fileName : ${SongFileNames}">            
+            <td th:text="${fileName}" style="color:aliceblue;" >Flowers</td>
+                <td><audio controls>
+                    <source th:src="${'https://musicarchive1.sfo3.cdn.digitaloceanspaces.com/'+fileName}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+</body>
+
+</html>
