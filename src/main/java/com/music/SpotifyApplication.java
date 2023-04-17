@@ -11,11 +11,11 @@ import com.music.services.StorageService;
 
 @SpringBootApplication
 public class SpotifyApplication {
-	
+
 	public static void main(String[] args) {
 		ApplicationContext context =   SpringApplication.run(SpotifyApplication.class, args);
 		StorageService storageService=context.getBean(StorageService.class);
-		 storageService.getSongFileNames();
+		System.out.println(storageService.getSongFileNames());
 		//SpringApplication.run(SpotifyApplication.class, args);
 		//storageService.getSongFileNames();
 	}
