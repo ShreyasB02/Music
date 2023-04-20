@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Music Archive</title>
+        <h1 class="text-center" style="color: aqua;">MUSIC APP WELCOME PAGE</h1>
+        
+</head>
+<body bgcolor="bg-gray-800">
+    
+    <div>
+    <div>
+        <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" style="border: 0cap; border-radius: 0ch;" />
+        <button type="submit" value="Upload" class="bg-gray-200" style="display: flex;">Upload</button>
+    </form>
+   </div>
+   </div>
+    
+    
+    <div>
+        <table>
+            <thead>
+            <tr>
+             <th class="bg-gray-900" scope="col" style="color:royalblue">Song Name</th>
+             <th class="bg-gray-900" scope="col" style="color:blueviolet">Audio</th>
+            </tr>
+            </thead>
+            <tr th:each="fileName : ${SongFileNames}" onclick="getRowText(this)">            
+            <td th:text="${fileName}" style="color:aliceblue;" >Flowers</td>
+           <td  ><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16" onclick=>
+            <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+          </svg>
+          </td>                 
+           </tr>
+            </tbody>
+        </table>
+
+</body>
+
+</html>
+<script>
+var play = document.getElementsByClassName("playButton")[0];
+
+// Add an onclick event to the circle
+function getRowText(row) {
+  var name = row.cells[0].textContent;
+  //var age = row.cells[1].textContent;
+  if (document.getElementsByTagName("audio").length > 0) {
+    document.getElementsByTagName("audio")[0].remove();
+  }
+  else {
+    console.log("No audio element found");
+  }
+  var audio = document.createElement("audio");
+  audio.setAttribute("controls", "controls");
+  audio.setAttribute("autoplay", "autoplay");
+  audio.setAttribute("style", "");
+  var source = document.createElement("source");
+  source.setAttribute("src", "https://musicarchive1.sfo3.cdn.digitaloceanspaces.com/"+name);
+  source.setAttribute("type", "audio/mpeg");
+  audio.appendChild(source);
+  document.body.appendChild(audio);
+  var k=source.getAttribute("src");
+  console.log(k);
+  
+}
+
+</script>
