@@ -36,13 +36,39 @@
            </tr>
             </tbody>
         </table>
+        <button onclick="playPrev()">Previous</button>
+        <button onclick="playNext()"> Next</button>
 
 </body>
 
 </html>
 <script>
 var play = document.getElementsByClassName("playButton")[0];
-
+var que = "[[${songQueue}]]";
+var curSong=0;
+que = que.slice(1,-1).split(",");
+function playPrev(){
+  curSong=(curSong-1)%que.length;
+  var audioSrc = document.getElementById("audioSrc");
+  var audio = document.getElementById("audioPlayer")
+  var name="https://musicarchive1.sfo3.cdn.digitaloceanspaces.com"+"/"+que[curSong].trim()
+  console.log(name)
+  audioSrc.setAttribute("src", name)
+  audio.load()
+  audio.play()
+}
+function playNext(){
+  
+  curSong=(curSong+1)%que.length;
+  var audioSrc = document.getElementById("audioSrc");
+  var audio = document.getElementById("audioPlayer")
+  var name="https://musicarchive1.sfo3.cdn.digitaloceanspaces.com"+"/"+que[curSong].trim()
+  console.log(name)
+  audioSrc.setAttribute("src", name)
+  audio.load()
+  audio.play()
+}
+// console.log(que);
 // Add an onclick event to the circle
 function getRowText(row) {
   var name = row.cells[0].textContent;
@@ -57,9 +83,11 @@ function getRowText(row) {
   audio.setAttribute("controls", "controls");
   audio.setAttribute("autoplay", "autoplay");
   audio.setAttribute("style", "");
+  audio.setAttribute("id", "audioPlayer")
   var source = document.createElement("source");
   source.setAttribute("src", "https://musicarchive1.sfo3.cdn.digitaloceanspaces.com/"+name);
   source.setAttribute("type", "audio/mpeg");
+  source.setAttribute("id", "audioSrc");
   audio.appendChild(source);
   document.body.appendChild(audio);
   var k=source.getAttribute("src");

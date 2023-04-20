@@ -23,6 +23,7 @@ public class IndexController {
     @GetMapping("/")
     public String Home(Model model){
         model.addAttribute("SongFileNames", storageService.getSongFileNames());
+        model.addAttribute("songQueue", storageService.getSongQueue());
         return "index";
     }
 

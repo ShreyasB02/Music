@@ -1,6 +1,7 @@
 package com.music.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,13 @@ public class StorageService {
                 }).collect(Collectors.toList());
 
         }
+        public List<String> getSongQueue(){
+            List<String> c = new ArrayList<String>();
+            c.add("01 Jimpak Chipak.mp3");
+            c.add("Flowers.mp3");
+            c.add("test2.mp3");
+            return c;
+        }
 
     public void uploadSong(MultipartFile file) throws IOException {
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -46,4 +54,3 @@ public class StorageService {
         space.putObject(new PutObjectRequest("musicarchive1",file.getOriginalFilename(),file.getInputStream(),objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 }
-
