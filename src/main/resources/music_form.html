@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${pageTitle}]]</title>
+</head>
+<style>
+  .heading
+  {
+    color:blue;
+    font-size: 40px;
+    position:fixed;
+    left:40%;
+  }
+  .music_name_label
+  {
+    position:absolute;
+    top: 10%;
+  }
+  .genre_label
+  {
+    position:absolute;
+    top: 15%;
+  }
+  .artist_label
+  {
+    position:absolute;
+    top: 20%;
+  }
+  .submit_button
+  {
+    position:absolute;
+    top: 30%;
+    left: 5%;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 15px 32px;
+    border-radius: 4px;
+  }
+  .cancel
+  {
+    position:absolute;
+    top: 30%;
+    left: 12%;
+    background-color: #f44336;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 15px 32px;
+    border-radius: 4px;
+  }
+  body
+  {
+    background-color: #FFFFE0;
+    text-align : center;
+    font-size: 20px;
+  }
+</style>
+<body>
+<div>
+  <div class="heading">[[${pageTitle}]]</div>
+
+  <form th:action="@{/music/save}" method = "post" th:object="${music}">
+    <div>
+      <input type = "hidden" th:field="*{Music_ID}"/>
+      <div class = "music_name_label">
+        <label>Music Name: </label>
+        <input type = "text" th:field="*{Music_Name}"required/>
+      </div>
+      <div class = "genre_label">
+        <label>Genre: </label>
+        <input type = "text" th:field="*{Genre}"required/>
+      </div>
+      <div class = "artist_label">
+        <label>Artist: </label>
+        <input type = "text" th:field="*{Artist}"required/>
+      </div>
+      <button class = "submit_button" type = "submit">Save</button>
+      <button class = "cancel" type = "button" onclick="cancelForm()">Cancel</button>
+    </div>
+  </form>
+</div>
+<script type = "text/javascript">
+  function cancelForm()
+  {
+    window.location = "[[@{/music}]]";
+  }
+</script>
+</body>
+</html>
