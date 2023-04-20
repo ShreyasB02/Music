@@ -27,17 +27,72 @@
              <th class="bg-gray-900" scope="col" style="color:blueviolet">Audio</th>
             </tr>
             </thead>
-            <tr th:each="fileName : ${SongFileNames}">            
+            <tr th:each="fileName : ${SongFileNames}" onclick="getRowText(this)">            
             <td th:text="${fileName}" style="color:aliceblue;" >Flowers</td>
-                <td><audio controls>
-                    <source th:src="${'https://musicarchive1.sfo3.cdn.digitaloceanspaces.com/'+fileName}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                    </audio>
-                </td>
-            </tr>
+           <td  ><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16" onclick=>
+            <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+          </svg>
+          </td>                 
+           </tr>
             </tbody>
         </table>
+        <button onclick="playPrev()">Previous</button>
+        <button onclick="playNext()"> Next</button>
 
 </body>
 
 </html>
+<script>
+var play = document.getElementsByClassName("playButton")[0];
+var que = "[[${songQueue}]]";
+var curSong=0;
+que = que.slice(1,-1).split(",");
+function playPrev(){
+  curSong=(curSong-1)%que.length;
+  var audioSrc = document.getElementById("audioSrc");
+  var audio = document.getElementById("audioPlayer")
+  var name="https://musicarchive1.sfo3.cdn.digitaloceanspaces.com"+"/"+que[curSong].trim()
+  console.log(name)
+  audioSrc.setAttribute("src", name)
+  audio.load()
+  audio.play()
+}
+function playNext(){
+  
+  curSong=(curSong+1)%que.length;
+  var audioSrc = document.getElementById("audioSrc");
+  var audio = document.getElementById("audioPlayer")
+  var name="https://musicarchive1.sfo3.cdn.digitaloceanspaces.com"+"/"+que[curSong].trim()
+  console.log(name)
+  audioSrc.setAttribute("src", name)
+  audio.load()
+  audio.play()
+}
+// console.log(que);
+// Add an onclick event to the circle
+function getRowText(row) {
+  var name = row.cells[0].textContent;
+  //var age = row.cells[1].textContent;
+  if (document.getElementsByTagName("audio").length > 0) {
+    document.getElementsByTagName("audio")[0].remove();
+  }
+  else {
+    console.log("No audio element found");
+  }
+  var audio = document.createElement("audio");
+  audio.setAttribute("controls", "controls");
+  audio.setAttribute("autoplay", "autoplay");
+  audio.setAttribute("style", "");
+  audio.setAttribute("id", "audioPlayer")
+  var source = document.createElement("source");
+  source.setAttribute("src", "https://musicarchive1.sfo3.cdn.digitaloceanspaces.com/"+name);
+  source.setAttribute("type", "audio/mpeg");
+  source.setAttribute("id", "audioSrc");
+  audio.appendChild(source);
+  document.body.appendChild(audio);
+  var k=source.getAttribute("src");
+  console.log(k);
+  
+}
+
+</script>
