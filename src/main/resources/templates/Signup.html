@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Music Archive</title>
+        <h1 class="text-center" style="color: aqua;">MUSIC APP SING UP</h1>
+    </head>
+    <body style="background-color: aquamarine;">
+        <h1>SIGN UP</h1>
+        <div>
+            <form action="/signup" method="post">
+                <div>
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email">
+                </div>
+                <div>
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName">
+                </div>
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password">
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+</html>
