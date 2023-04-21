@@ -52,7 +52,13 @@ public class User {
     this.username = username;
   }
 
-
+  public List<String> getQueue() {
+    return queue;
+  }
+  public void setQueue(List<String> queue) {
+    this.queue = queue;
+  }
+  
   public String toString(User user){
     return user.getUsername() + " " + user.getEmail();
   }
