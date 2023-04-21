@@ -52,4 +52,9 @@ public class User {
     this.username = username;
   }
 
+
+  public String toString(User user){
+    return user.getUsername() + " " + user.getEmail();
+  }
+
 }

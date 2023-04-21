@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/home")
-    public String Home(@RequestParam("email") String email, @RequestParam("password") String password){
-       User u=userRepository.findByEmail(email);
+    public String Home(@RequestParam("username") String username, @RequestParam("password") String password){
+       User u=userRepository.findByEmail(username);
          if(u!=null){
               if(u.getPassword().equals(password)){
                 return "index";
@@ -58,9 +58,11 @@ public class UserController {
         return "Login";
     }
 
-    @GetMapping("/getUser")
-    public List<User> getUser(){
-        System.out.println(userRepository.findAll());
-        return userRepository.findAll();
-    }
+    // @GetMapping("/getUser")
+    // public void getUser(){
+    //     User u = userRepository.findByEmail("nshashankvarma");
+    //     System.out.println("********************************************************************");
+    //     System.out.println(u.toString(u));
+    //     System.out.println("********************************************************************");      
+    // }
 }
