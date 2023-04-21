@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
-public class StorageService {
+public class StorageService{
     private final AmazonS3 space;
 
     public StorageService(){
