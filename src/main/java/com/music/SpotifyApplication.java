@@ -3,8 +3,6 @@ package com.music;
 //import org.springframework.beans.factory.annotation.Autowired;
 import com.music.Repository.songRepo.SongRepository;
 import com.music.Repository.userRepo.UserRepository;
-import com.music.models.Song;
-import com.music.models.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 
 import com.music.services.StorageService;
 
-import java.util.List;
 
 @Slf4j
 @SpringBootApplication

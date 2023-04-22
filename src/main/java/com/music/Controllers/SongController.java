@@ -2,7 +2,6 @@ package com.music.Controllers;
 
 import com.music.Repository.songRepo.SongRepository;
 import com.music.models.Song;
-import com.music.models.User;
 import com.music.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @RestController

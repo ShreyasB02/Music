@@ -1,13 +1,17 @@
 package com.music.Controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.music.Repository.userRepo.UserRepository;
 import com.music.models.User;
@@ -53,8 +57,6 @@ public class UserController {
              return "Login";
          }
     }
-    
-
 
 @PostMapping("/signup")
     public String Signup(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("username") String username){
@@ -73,5 +75,16 @@ public class UserController {
          System.out.println("********************************************************************");
          System.out.println(u.toString(u));
          System.out.println("********************************************************************");
+     }
+     @PostMapping("/addtoqueue")
+     public String addToQueue(@RequestBody String song, HttpSession session){  
+         System.out.println("User: "+ (String)session.getAttribute("username"));
+         User u = userRepository.findByUsername((String)session.getAttribute("username"));
+         List<String> q = u.getQueue();
+         q.add(song);
+         u.getQueue().add(song);
+         session.setAttribute("userque", u.getQueue());
+         userRepository.save(u);
+         return "redirect:/";
      }
 }

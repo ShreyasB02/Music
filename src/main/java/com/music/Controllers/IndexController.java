@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.music.services.StorageService;
+
 
 @Controller
 public class IndexController {
@@ -23,8 +23,12 @@ public class IndexController {
     @GetMapping("/")
     public String Home(Model model){
         model.addAttribute("SongFileNames", storageService.getSongFileNames());
-        model.addAttribute("songQueue", storageService.getSongQueue());
+        // model.addAttribute("songQueue", storageService.getSongQueue());
         return "index";
+    }
+    @GetMapping("/myQueue")
+    public String Queue(Model model){
+        return "myQueue";
     }
 
     @PostMapping("/")
