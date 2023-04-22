@@ -1,33 +1,101 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <title>Music Archive</title>
-        <h1 class="text-center" style="color: aqua;">MUSIC APP SING UP</h1>
-    </head>
-    <body style="background-color: aquamarine;">
-        <h1>SIGN UP</h1>
-        <div>
-            <form action="/signup" method="post">
-                <div>
-                    <label for="email">Email</label>
-                    <input type="text" id="email" name="email">
-                </div>
-                <div>
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName">
-                </div>
-                <div>
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username">
-                </div>
-                <div>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password">
-                </div>
-                <button type="submit">Sign Up</button>
-            </form>
-        </div>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <title>Music Archive</title>
+</head>
+<style>
+    body {
+        background-color: #1DB954;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        color: white;
+        height: 100vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .outer-container {
+        background-color: #535353;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 2rem;
+        border-radius: 25px;
+    }
+
+    .header {
+        text-align: center;
+        color: white;
+        font-size: 2rem;
+    }
+
+    .forminput {
+        margin: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .mainh {
+        font-size: 4rem;
+    }
+
+    .logo {
+        max-width: 40%;
+    }
+
+    .button {
+        width: 100%;
+        background-color: #1DB954;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 5rem;
+        font-size: 1.2rem;
+    }
+
+    input {
+        height: 1.5rem;
+        width: 25rem;
+        border: none;
+        background-color: white;
+        border-radius: 5rem;
+        padding: 1rem;
+        color: black;
+    }
+
+    .prompt {
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+    }
+</style>
+
+<body>
+    <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png" class="logo" />
+    <div class="outer-container">
+        <h1 class="header">SIGN UP</h1>
+        <form action="/signup" method="post">
+            <div class="forminput">
+                <input type="text" id="email" name="email" placeholder="Email">
+            </div>
+            <div class="forminput">
+                <input type="text" id="firstName" name="firstName" placeholder="First Name">
+            </div>
+            <div class="forminput">
+                <input type="text" id="username" name="username" placeholder="Username">
+            </div>
+            <div class="forminput">
+                <input type="password" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="button">Sign Up</button>
+        </form>
+        <a href="/Login" class="prompt">Already have an account? Login</a>
+    </div>
 
 </html>

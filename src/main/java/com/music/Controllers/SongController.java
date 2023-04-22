@@ -107,4 +107,12 @@ public class SongController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // @GetMapping("/getSongs")
+    // public void getUser(){
+    //     Song u = songRepository.findAll()[0];
+    //     System.out.println("********************************************************************");
+    //     System.out.println(u.toString(u));
+    //     System.out.println("********************************************************************");      
+    // }
 }

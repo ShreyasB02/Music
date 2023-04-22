@@ -1,13 +1,134 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Music Archive</title>
-        <h1 class="text-center" style="color: aqua;">MUSIC APP WELCOME PAGE</h1>
-        
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Music Archive</title>
 </head>
-<body bgcolor="bg-gray-800">
+<style>
+  body {
+    background-color: #212121;
+    display: flex;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  .left-container {
+    height: 100vh;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #535353;
+  }
+
+  .left-container img {
+    margin-top: 1rem;
+    width: 40%;
+  }
+
+  .left-container h2 {
+    font-size: 2rem;
+    color: white;
+  }
+
+  .right-container {
+    width: 80%;
+    height: 100vh;
+    background-color: #212121;
+    padding: 2rem;
+  }
+
+  .right-container hr {
+    color: #1DB954;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  tr {
+    font-size: 1.3rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #1DB954;
+  }
+
+  .playlist-header {
+    color: white;
+    font-size: 4rem;
+  }
+
+  .player {
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    bottom: 0;
+    background-color: #121212;
+    width: 100%;
+    height: 5rem;
+  }
+  .player h1{
+    font-size:1.5rem;
+    color: white;
+  }
+
+  audio {
+    background-color: transparent;
+  }
+</style>
+
+<body>
+  <div class="left-container">
+    <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" class="logo"
+      style="color: #1DB954;" />
+    <img src="https://fmkconsulting.co/wp-content/uploads/2019/12/placeholder-profile.png" />
+    <h2>Welcome,</h2>
+    <h2 th:text="${session.username}" style="color:#1DB954">Username</h2>
+  </div>
+  <div class="right-container">
+    <h1 class="playlist-header">All Time Hits</h1>
+    <hr />
+    <table>
+      <!-- <thead>
+        <tr>
+          <th scope="col" >Song Name</th>
+          <th scope="col" >Audio</th>
+        </tr>
+      </thead> -->
+      <tr th:each="fileName : ${session.userque}" onclick="getRowText(this)">
+        <td th:text="${fileName}">Flowers</td>
+        <td><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
+            viewBox="0 0 16 16" onclick=>
+            <path
+              d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+          </svg>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="player">
+    <h1 id="songname"></h1>
+    <button onclick="playPrev()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" transform="rotate(180)" class="bi bi-play"
+        viewBox="0 0 16 16" onclick=>
+        <path
+          d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+      </svg></button>
+      <div id="player"></div>
+    <button onclick="playNext()"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
+      viewBox="0 0 16 16" onclick=>
+      <path
+        d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+    </svg></button>
+  </div>
+</body>
+<!-- <body class="bg-[#212121]">
     
     <div>
     <div>
@@ -40,60 +161,62 @@
         <button onclick="playPrev()">Previous</button>
         <button onclick="playNext()"> Next</button>
 
-</body>
+</body> -->
 
 </html>
 <script>
-var play = document.getElementsByClassName("playButton")[0];
-var que = "[[${songQueue}]]";
-var curSong=0;
-que = que.slice(1,-1).split(",");
-function playPrev(){
-  curSong=(curSong-1)%que.length;
-  var audioSrc = document.getElementById("audioSrc");
-  var audio = document.getElementById("audioPlayer")
-  var name="https://musicarchive1.sfo3.cdn.digitaloceanspaces.com"+"/"+que[curSong].trim()
-  console.log(name)
-  audioSrc.setAttribute("src", name)
-  audio.load()
-  audio.play()
-}
-function playNext(){
-  
-  curSong=(curSong+1)%que.length;
-  var audioSrc = document.getElementById("audioSrc");
-  var audio = document.getElementById("audioPlayer")
-  var name="https://musicarchive1.sfo3.cdn.digitaloceanspaces.com"+"/"+que[curSong].trim()
-  console.log(name)
-  audioSrc.setAttribute("src", name)
-  audio.load()
-  audio.play()
-}
-// console.log(que);
-// Add an onclick event to the circle
-function getRowText(row) {
-  var name = row.cells[0].textContent;
-  //var age = row.cells[1].textContent;
-  if (document.getElementsByTagName("audio").length > 0) {
-    document.getElementsByTagName("audio")[0].remove();
+  var play = document.getElementsByClassName("playButton")[0];
+  var que = "[[${songQueue}]]";
+  var curSong = 0;
+  que = que.slice(1, -1).split(",");
+  function playPrev() {
+    curSong = (curSong - 1) % que.length;
+    var audioSrc = document.getElementById("audioSrc");
+    var audio = document.getElementById("audioPlayer")
+    var name = "https://musicarchive1.sfo3.cdn.digitaloceanspaces.com" + "/" + que[curSong].trim()
+    console.log(name)
+    audioSrc.setAttribute("src", name)
+    audio.load()
+    audio.play()
   }
-  else {
-    console.log("No audio element found");
+  function playNext() {
+
+    curSong = (curSong + 1) % que.length;
+    var audioSrc = document.getElementById("audioSrc");
+    var audio = document.getElementById("audioPlayer")
+    var name = "https://musicarchive1.sfo3.cdn.digitaloceanspaces.com" + "/" + que[curSong].trim()
+    console.log(name)
+    audioSrc.setAttribute("src", name)
+    audio.load()
+    audio.play()
   }
-  var audio = document.createElement("audio");
-  audio.setAttribute("controls", "controls");
-  audio.setAttribute("autoplay", "autoplay");
-  audio.setAttribute("style", "");
-  audio.setAttribute("id", "audioPlayer")
-  var source = document.createElement("source");
-  source.setAttribute("src", "https://musicarchive1.sfo3.cdn.digitaloceanspaces.com/"+name);
-  source.setAttribute("type", "audio/mpeg");
-  source.setAttribute("id", "audioSrc");
-  audio.appendChild(source);
-  document.body.appendChild(audio);
-  var k=source.getAttribute("src");
-  console.log(k);
-  
-}
+  // Add an onclick event to the circle
+  function getRowText(row) {
+    var name = row.cells[0].textContent;
+    var playerDiv = document.getElementById("player");
+    //var age = row.cells[1].textContent;
+    if (document.getElementsByTagName("audio").length > 0) {
+      document.getElementsByTagName("audio")[0].remove();
+    }
+    else {
+      console.log("No audio element found");
+    }
+    var audio = document.createElement("audio");
+    audio.setAttribute("controls", "controls");
+    audio.setAttribute("autoplay", "autoplay");
+    audio.setAttribute("style", "");
+    audio.setAttribute("id", "audioPlayer")
+    var source = document.createElement("source");
+    source.setAttribute("src", "https://musicarchive1.sfo3.cdn.digitaloceanspaces.com/" + name);
+    source.setAttribute("type", "audio/mpeg");
+    source.setAttribute("id", "audioSrc");
+    audio.appendChild(source);
+    playerDiv.appendChild(audio);
+    var k = source.getAttribute("src");
+    console.log(k);
+    var songname = document.getElementById("songname");
+    songname.innerHTML = name;
+
+  }
 
 </script>
