@@ -1,4 +1,4 @@
-package com.music.Repository;
+package com.music.Repository.songRepo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import com.music.models.Song;
 public interface SongRepository extends MongoRepository<Song, String>  {

@@ -1,9 +1,12 @@
 package com.music.Controllers;
 
-import com.music.Repository.SongRepository;
+import com.music.Repository.songRepo.SongRepository;
 import com.music.models.Song;
+import com.music.models.User;
 import com.music.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ import java.util.Optional;
 @RequestMapping("/api/songs")
 public class SongController {
 
+    @Autowired
+    @Qualifier("songMongoTemplate")
+    private MongoTemplate songMongoTemplate;
     private final StorageService storageService;
     private final SongRepository songRepository;
    
@@ -28,9 +34,12 @@ public class SongController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Song>> getSongs()
+    public void getSongs()
     {
-        return ResponseEntity.ok(songRepository.findAll());
+        Song u = songRepository.findAll().get(0);
+        System.out.println("********************************************************************");
+        System.out.println(u.toString());
+        System.out.println("********************************************************************");
     }
 
     @GetMapping("/{id}")
@@ -108,11 +117,4 @@ public class SongController {
         }
     }
 
-    // @GetMapping("/getSongs")
-    // public void getUser(){
-    //     Song u = songRepository.findAll()[0];
-    //     System.out.println("********************************************************************");
-    //     System.out.println(u.toString(u));
-    //     System.out.println("********************************************************************");      
-    // }
 }

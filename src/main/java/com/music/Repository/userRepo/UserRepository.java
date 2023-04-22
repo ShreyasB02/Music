@@ -1,4 +1,4 @@
-package com.music.Repository;
+package com.music.Repository.userRepo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import com.music.models.User;
 
