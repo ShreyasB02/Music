@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Spotify</title>
-  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <title>Song Search Results</title>
 </head>
 <style>
   body {
@@ -100,100 +97,60 @@
 </style>
 
 <body>
-  <div class="left-container">
-    <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" class="logo"
-      style="color: #1DB954;" />
-    <img src="https://fmkconsulting.co/wp-content/uploads/2019/12/placeholder-profile.png" />
-    <h2>Welcome,</h2>
-    <h2 th:text="${session.username}" style="color:#1DB954">Username</h2>
-    <hr/>
-    <a href="/myQueue">
-      <div>Go To Queue</div>
-    </a>
-    <hr/>
-    <div>
-      <h3 style="font-size: 1.2rem;color: #1DB954;">Add My Songs</h3>
-      <form action="/" method="post" enctype="multipart/form-data">
+<div class="left-container">
+  <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" class="logo"
+       style="color: #1DB954;" />
+  <img src="https://fmkconsulting.co/wp-content/uploads/2019/12/placeholder-profile.png" />
+  <h2>Welcome,</h2>
+  <h2 th:text="${session.username}" style="color:#1DB954">Username</h2>
+  <hr/>
+  <a href="/myQueue">
+    <div>Go To Queue</div>
+  </a>
+  <a href="/"><div>All Songs</div></a>
+  <hr/>
+  <div>
+    <h3 style="font-size: 1.2rem;color: #1DB954;">Add My Songs</h3>
+    <form action="/" method="post" enctype="multipart/form-data">
       <input type="file" name="file" />
       <button type="submit" value="Upload" class="bg-gray-200" style="display: flex; background-color: #1DB954; border: 0;color: white;padding: 0.5rem;border-radius: 10px;margin-top: 1rem;width: 80%;text-align: center;font-size: 1.1rem;">Upload</button>
-  </form>
- </div>
-  </div>
-  <div class="right-container">
-    <h1 class="playlist-header">All Time Hits</h1>
-    <hr />
-    <table>
-      <tr th:each="fileName : ${SongFileNames}" onclick="getRowText(this)" ondblclick="addToQueue(this)">
-        <td th:text="${fileName}">Flowers</td>
-        <td class="rowIcons">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
-              viewBox="0 0 16 16" >
-              <path
-                d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-            </svg>
-          <div>+</div>
-          </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="player">
-    <h1 id="songname"></h1>
-    <button onclick="playPrev()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" transform="rotate(180)"
-        class="bi bi-play" viewBox="0 0 16 16" onclick=>
-        <path
-          d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-      </svg></button>
-    <div id="player"></div>
-    <button onclick="playNext()"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954"
-        class="bi bi-play" viewBox="0 0 16 16" onclick=>
-        <path
-          d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-      </svg></button>
-  </div>
-  <div>
-    <form th:action="@{api/songs/find}" method="get">
-      <input type="text" name="title" placeholder="Search for a song...">
-      <button type="submit">Search</button>
     </form>
   </div>
+</div>
+<div class="right-container">
+  <h1 class="playlist-header">Search Result</h1>
+  <hr />
+  <table>
+    <tr th:each="fileName : ${foundSong.fileName}" onclick="getRowText(this)" ondblclick="addToQueue(this)">
+      <td th:text="${fileName}">Flowers</td>
+      <td class="rowIcons">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
+             viewBox="0 0 16 16" >
+          <path
+                  d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+        </svg>
+        <div>+</div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="player">
+  <h1 id="songname"></h1>
+  <button onclick="playPrev()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" transform="rotate(180)"
+         class="bi bi-play" viewBox="0 0 16 16" onclick=>
+      <path
+              d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+    </svg></button>
+  <div id="player"></div>
+  <button onclick="playNext()"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954"
+                                    class="bi bi-play" viewBox="0 0 16 16" onclick=>
+    <path
+            d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+  </svg></button>
+</div>
 </body>
-<!-- <body class="bg-[#212121]">
-    
-    <div>
-    <div>
-        <form action="/" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" style="border: 0cap; border-radius: 0ch;" />
-        <button type="submit" value="Upload" class="bg-gray-200" style="display: flex;">Upload</button>
-    </form>
-   </div>
-   </div>
-    
-    
-    <div>
-      <h1 th:text="${session.username}" style="color:aliceblue;">username</h1>
-        <table>
-            <thead>
-            <tr>
-             <th class="bg-gray-900" scope="col" style="color:royalblue">Song Name</th>
-             <th class="bg-gray-900" scope="col" style="color:blueviolet">Audio</th>
-            </tr>
-            </thead>
-            <tr th:each="fileName : ${session.userque}" onclick="getRowText(this)">            
-            <td th:text="${fileName}" style="color:aliceblue;" >Flowers</td>
-           <td  ><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16" onclick=>
-            <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
-          </svg>
-          </td>                 
-           </tr>
-            </tbody>
-        </table>
-        <button onclick="playPrev()">Previous</button>
-        <button onclick="playNext()"> Next</button>
-
-</body> -->
-
 </html>
 <script>
   var play = document.getElementsByClassName("playButton")[0];
@@ -223,7 +180,7 @@
     var songname = document.getElementById("songname");
     songname.innerHTML = que[curSong];
   }
-  
+
   function getRowText(row) {
     var name = row.cells[0].textContent;
     var playerDiv = document.getElementById("player");
@@ -275,7 +232,4 @@
 
   xhr.send(name);
 }
-
-
-
 </script>
