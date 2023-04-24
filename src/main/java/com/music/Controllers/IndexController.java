@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.music.services.StorageService;
-
+import com.music.Service.SongService;
+import com.music.models.Song;
 
 @Controller
 public class IndexController {
     private final StorageService storageService;
+    private final SongService songService;
     @Autowired
-    public IndexController(StorageService storageService) {
+    public IndexController(StorageService storageService, SongService songService) {
         this.storageService = storageService;
+        this.songService = songService;
     }
     
     @GetMapping("/")
@@ -31,9 +34,16 @@ public class IndexController {
         return "myQueue";
     }
 
-    @PostMapping("/")
-    public String uploadSong(@RequestParam("file") MultipartFile file) throws IOException {
-        storageService.uploadSong(file);
+    @GetMapping("/new")
+    public String uploadSongDetails(Model model) throws IOException {
+        model.addAttribute("Song", new Song());
+        return "music_form";
+    }
+
+    @PostMapping("/upload")
+    public String uploadSong(Song song) throws IOException {
+        songService.saveSong(song);
+        //storageService.uploadSong(file);
         return "redirect:/";
     }
 
