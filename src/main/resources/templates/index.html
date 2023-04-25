@@ -63,7 +63,7 @@
   }
 
   .player {
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -93,9 +93,34 @@
   audio {
     background-color: transparent;
   }
-  .rowIcons{
+
+  .rowIcons {
     display: flex;
     font-size: 2rem;
+  }
+
+  .search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  input {
+    height: 2rem;
+    width: 25rem;
+    border: none;
+    background-color: #ffffff;
+    border-bottom: none;
+    border-radius: 5rem;
+    padding: 1rem;
+  }
+
+  .search-bar button {
+    background-color: white;
+    color: #121212;
+    border: none;
+    border-radius: 100px;
+    padding: 1rem;
   }
 </style>
 
@@ -106,33 +131,39 @@
     <img src="https://fmkconsulting.co/wp-content/uploads/2019/12/placeholder-profile.png" />
     <h2>Welcome,</h2>
     <h2 th:text="${session.username}" style="color:#1DB954">Username</h2>
-    <hr/>
+    <hr />
     <a href="/myQueue">
       <div>Go To Queue</div>
     </a>
-    <hr/>
+    <hr />
     <div>
-      <h3 style="font-size: 1.2rem;color: #1DB954;">Add My Songs</h3>
-      <form action="/" method="post" enctype="multipart/form-data">
-      <input type="file" name="file" />
-      <button type="submit" value="Upload" class="bg-gray-200" style="display: flex; background-color: #1DB954; border: 0;color: white;padding: 0.5rem;border-radius: 10px;margin-top: 1rem;width: 80%;text-align: center;font-size: 1.1rem;">Upload</button>
-  </form>
- </div>
+      <button style=" background-color: #1DB954;font-size: 1.2rem;border-radius: 25px;width: 150px;height: 30px; border: none;"><a
+          style="color: White; text-decoration: none;" th:href="@{api/songs/musicform}">Add Songs</a></button>
+      </form>
+    </div>
   </div>
   <div class="right-container">
-    <h1 class="playlist-header">All Time Hits</h1>
+    <div class="search-bar">
+      <h1 class="playlist-header">All Time Hits</h1>
+      <form th:action="@{api/songs/find}" method="get">
+        <input type="text" name="title" placeholder="Search for a song...">
+        <button type="submit">
+          Search
+        </button>
+      </form>
+    </div>
     <hr />
     <table>
       <tr th:each="fileName : ${SongFileNames}" onclick="getRowText(this)" ondblclick="addToQueue(this)">
         <td th:text="${fileName}">Flowers</td>
         <td class="rowIcons">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
-              viewBox="0 0 16 16" >
-              <path
-                d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-            </svg>
+            viewBox="0 0 16 16">
+            <path
+              d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+          </svg>
           <div>+</div>
-          </td>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -151,15 +182,6 @@
         <path
           d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
       </svg></button>
-  </div>
-  <div>
-    <form th:action="@{api/songs/find}" method="get">
-      <input type="text" name="title" placeholder="Search for a song...">
-      <button type="submit">Search</button>
-    </form>
-  </div>
-  <div>
-    <button><a th:href = "@{api/songs/musicform}">Add A Song</a></button>
   </div>
 </body>
 <!-- <body class="bg-[#212121]">
@@ -227,9 +249,9 @@
     var songname = document.getElementById("songname");
     songname.innerHTML = que[curSong];
     console.log(que[curSong])
-    
+
   }
-  
+
   function getRowText(row) {
     var name = row.cells[0].textContent;
     var playerDiv = document.getElementById("player");
@@ -256,31 +278,31 @@
   }
 
   function addToQueue(row) {
-  var name = row.cells[0].textContent;
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/addtoqueue', true);
-  xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
+    var name = row.cells[0].textContent;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/addtoqueue', true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
 
-  // handle the response from the server
-  xhr.onload = function() {
-    if (xhr.status >= 200 && xhr.status < 400) {
-      // handle success
-      var response = xhr.responseText;
-      console.log(response);
-    } else {
+    // handle the response from the server
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 400) {
+        // handle success
+        var response = xhr.responseText;
+        console.log(response);
+      } else {
+        // handle error
+        console.log(xhr.status);
+      }
+    };
+
+    // handle the request error
+    xhr.onerror = function () {
       // handle error
-      console.log(xhr.status);
-    }
-  };
+      console.log("Error");
+    };
 
-  // handle the request error
-  xhr.onerror = function() {
-    // handle error
-    console.log("Error");
-  };
-
-  xhr.send(name);
-}
+    xhr.send(name);
+  }
 
 
 
