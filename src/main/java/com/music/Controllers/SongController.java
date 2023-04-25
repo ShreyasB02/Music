@@ -6,7 +6,7 @@ import com.music.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.HttpStatus;
+//import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +33,7 @@ public class SongController {
         this.songRepository = songRepository;
     }
 
-    @GetMapping
+    @GetMapping("/getSong")
     public void getSongs()
     {
         Song u = songRepository.findAll().get(0);
@@ -75,7 +75,7 @@ public class SongController {
     public String createSong(@RequestPart("title")String title, @RequestPart("artist")String artist, @RequestPart("file")MultipartFile file) throws IOException {
         if(songRepository.existsSongByFileNameEquals(file.getOriginalFilename()) || songRepository.existsSongByTitleEquals(title))
         {
-            return "error";
+            return "error1";
         }
         else
         {
