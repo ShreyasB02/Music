@@ -87,4 +87,15 @@ public class UserController {
          userRepository.save(u);
          return "redirect:/";
      }
+     @PostMapping("/deletefromqueue")
+     public String deletefromQueue(@RequestBody String song, HttpSession session){  
+         System.out.println("User: "+ (String)session.getAttribute("username"));
+         User u = userRepository.findByUsername((String)session.getAttribute("username"));
+         List<String> q = u.getQueue();
+         q.remove(song);
+         u.getQueue().remove(song);
+         session.setAttribute("userque", u.getQueue());
+         userRepository.save(u);
+         return "redirect:/";
+     }
 }
