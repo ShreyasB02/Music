@@ -64,52 +64,62 @@ public class SongController {
         System.out.println(foundSong.getArtist());
         return "Search";
     }
-    @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity<?> createSong(@RequestPart("song")Song song, @RequestPart("file")MultipartFile file) throws IOException {
-        if(songRepository.existsSongByFileNameEquals(file.getOriginalFilename()) || songRepository.existsSongByTitleEquals(song.getTitle()))
+    @GetMapping("/musicform")
+    public String displayMusicForm(Model model)
+    {
+        Song newSong = new Song();
+        model.addAttribute("newSong",newSong);
+        return "music_form";
+    }
+    @PostMapping(value = "/upload",consumes = "multipart/form-data")
+    public String createSong(@RequestPart("title")String title, @RequestPart("artist")String artist, @RequestPart("file")MultipartFile file) throws IOException {
+        if(songRepository.existsSongByFileNameEquals(file.getOriginalFilename()) || songRepository.existsSongByTitleEquals(title))
         {
-            return ResponseEntity.badRequest().body("Name already exits");
+            return "error";
         }
         else
         {
             System.out.println("Uploading the file...");
             storageService.uploadSong(file);
+            Song newSong = new Song();
+            newSong.setArtist(artist);
+            newSong.setTitle(title);
+            newSong.setFileName(file.getOriginalFilename());
+            Song insertedSong = songRepository.save(newSong);
+            storageService.uploadSong(file);
 
-            song.setFileName(file.getOriginalFilename());
-            Song insertedSong = songRepository.insert(song);
-
-            return new ResponseEntity<>(insertedSong, HttpStatus.CREATED);
+            return "redirect:/";
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Song> updateSong(@PathVariable String id,@RequestBody Song songData)
-    {
-        Optional<Song> songOptional = songRepository.findById(id);
-
-        if(songOptional.isPresent())
-        {
-            Song song = songOptional.get();
-
-            if (songData.getTitle() != null)
-            {
-                song.setTitle(songData.getTitle());
-            }
-
-            if (songData.getArtist() != null)
-            {
-                song.setArtist(songData.getArtist());
-            }
-            song.setFavorite(song.isFavorite());
-            songRepository.save(song);
-
-            return ResponseEntity.ok(song);
-        }
-        else
-        {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Song> updateSong(@PathVariable String id,@RequestBody Song songData)
+//    {
+//        Optional<Song> songOptional = songRepository.findById(id);
+//
+//        if(songOptional.isPresent())
+//        {
+//            Song song = songOptional.get();
+//
+//            if (songData.getTitle() != null)
+//            {
+//                song.setTitle(songData.getTitle());
+//            }
+//
+//            if (songData.getArtist() != null)
+//            {
+//                song.setArtist(songData.getArtist());
+//            }
+//            song.setFavorite(song.isFavorite());
+//            songRepository.save(song);
+//
+//            return ResponseEntity.ok(song);
+//        }
+//        else
+//        {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Song> deleteSong(@PathVariable String id)

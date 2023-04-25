@@ -53,15 +53,15 @@ public class Song {
         this.artist = artist;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
-    }
-
-    private boolean isFavorite;
+//    public boolean isFavorite() {
+//        return isFavorite;
+//    }
+//
+//    public void setFavorite(boolean favorite) {
+//        isFavorite = favorite;
+//    }
+//
+//    private boolean isFavorite;
 
     public String toString(Song song){
         return song.getArtist() + " " + song.getFileName();

@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>[[${pageTitle}]]</title>
 </head>
 <style>
   .heading
@@ -17,7 +16,7 @@
     position:absolute;
     top: 10%;
   }
-  .genre_label
+  .title_label
   {
     position:absolute;
     top: 15%;
@@ -26,6 +25,11 @@
   {
     position:absolute;
     top: 20%;
+  }
+  .upload_label
+  {
+    position:absolute;
+    top: 25%;
   }
   .submit_button
   {
@@ -62,21 +66,19 @@
 <div>
   <div class="heading">Upload Songs</div>
 
-  <form th:action="@{/upload}" method = "post" th:object="${Song}">
-    <div>
-      <input type = "hidden" th:field="*{id}"/>
-      <div class = "music_name_label">
-        <label>Music Name: </label>
-        <input type = "text" th:field="*{fileName}"required/>
-      </div>
-      <div class = "genre_label">
+  <form th:action="@{/api/songs/upload}" method="post" enctype="multipart/form-data" th:object="${newSong}">
+      <div class = "title_label">
         <label>Title: </label>
-        <input type = "text" th:field="*{title}"required/>
+        <input type = "text" th:field="*{title}" name = "title" required/>
       </div>
       <div class = "artist_label">
         <label>Artist: </label>
-        <input type = "text" th:field="*{artist}"required/>
+        <input type = "text" th:field="*{artist}" name = "artist" required/>
       </div>
+      <div class = "upload_label">
+        <input type="file" name="file" />
+      </div>
+
       <!-- <div>
         <h3 style="font-size: 1.2rem;color: #1DB954;">Add My Songs</h3>
         <input type="file" name="file" />
@@ -84,7 +86,6 @@
       </div> -->
       <button class = "submit_button" type = "submit">Save</button>
       <button class = "cancel" type = "button" onclick="cancelForm()">Cancel</button>
-    </div>
   </form>
 </div>
 <script type = "text/javascript">
