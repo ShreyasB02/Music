@@ -16,7 +16,7 @@ import com.music.services.StorageService;
 
 @Slf4j
 @SpringBootApplication
-public class SpotifyApplication implements CommandLineRunner {
+public class SpotifyApplication{
 
 	@Autowired
 	private UserRepository model1Repository;
@@ -30,31 +30,5 @@ public class SpotifyApplication implements CommandLineRunner {
 		System.out.println(storageService.getSongFileNames());
 		//SpringApplication.run(SpotifyApplication.class, args);
 		//storageService.getSongFileNames();
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		log.info("************************************************************");
-		log.info("Start creating and printing mongo objects");
-		log.info("************************************************************");
-
-//		this.model1Repository.save(new User(null,"Model 1 obj"));
-//		this.model2Repository.save(new Song(null,"Model 2 Obj"));
-//
-//		List<User> model1s = this.model1Repository.findAll();
-//		for (Model1 model1obj : model1s) {
-//			log.info(model1obj.toString());
-//		}
-//
-//
-//		List<Model2> model2s = this.model2Repository.findAll();
-//		for (Model2 model2obj : model2s) {
-//			log.info(model2obj.toString());
-//		}
-
-		log.info("************************************************************");
-		log.info("Ended printing mongo objects");
-		log.info("************************************************************");
-
 	}
 }

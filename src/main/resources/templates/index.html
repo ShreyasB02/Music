@@ -112,10 +112,7 @@
     </a>
     <hr/>
     <div>
-      <h3 style="font-size: 1.2rem;color: #1DB954;">Add My Songs</h3>
-      <form action="/" method="post" enctype="multipart/form-data">
-      <input type="file" name="file" />
-      <button type="submit" value="Upload" class="bg-gray-200" style="display: flex; background-color: #1DB954; border: 0;color: white;padding: 0.5rem;border-radius: 10px;margin-top: 1rem;width: 80%;text-align: center;font-size: 1.1rem;">Upload</button>
+      <button style=" background-color: #1DB954;font-size: 1.2rem;border-radius: 25px;width: 150px;height: 30px"><a style="color: White;"th:href = "@{api/songs/musicform}">Add A Song</a></button>
   </form>
  </div>
   </div>
@@ -155,11 +152,8 @@
   <div>
     <form th:action="@{api/songs/find}" method="get">
       <input type="text" name="title" placeholder="Search for a song...">
-      <button type="submit">Search</button>
+      <button type="submit"style=" background-color: #1DB954;font-size: 1rem;border-radius: 25px;width: 100px;height: 30px;color: White">Search</button>
     </form>
-  </div>
-  <div>
-    <button><a th:href = "@{api/songs/musicform}">Add A Song</a></button>
   </div>
 </body>
 <!-- <body class="bg-[#212121]">
