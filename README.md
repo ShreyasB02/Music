@@ -1,2 +1,2 @@
 # Music
-Spotify Clone Using Java SPringboot and MongoDB
+Spotify Clone Using Java Springboot and MongoDB
