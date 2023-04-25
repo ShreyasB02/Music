@@ -71,24 +71,29 @@
     width: 100%;
     height: 5rem;
   }
-  .player h1{
-    font-size:1.5rem;
+
+  .player h1 {
+    font-size: 1.5rem;
     color: white;
   }
-  .left-container hr{
+
+  .left-container hr {
     color: #1DB954;
     width: 100%;
     background-color: #1DB954;
   }
-  a{
+
+  a {
     text-decoration: none;
     color: white;
     font-size: 1.5rem;
   }
+
   audio {
     background-color: transparent;
   }
-  .rowIcons{
+
+  .rowIcons {
     display: flex;
     font-size: 2rem;
   }
@@ -101,25 +106,28 @@
     <img src="https://fmkconsulting.co/wp-content/uploads/2019/12/placeholder-profile.png" />
     <h2>Welcome,</h2>
     <h2 th:text="${session.username}" style="color:#1DB954">Username</h2>
-    <hr/>
-    <a href="/"><div>All Songs</div></a>
+    <hr />
+    <a href="/">
+      <div>All Songs</div>
+    </a>
   </div>
   <div class="right-container">
     <h1 class="playlist-header">Current Queue</h1>
+    <h4 onclick="clearQueue()" style="color: white;">Clear Queue</h4>
     <hr />
     <table>
       <tr th:each="fileName : ${session.userque}" onclick="getRowText(this)" ondblclick="deletefromQueue(this)">
-      <!-- <tr th:each="fileName : ${SongFileNames}" onclick="getRowText(this)"> -->
+        <!-- <tr th:each="fileName : ${SongFileNames}" onclick="getRowText(this)"> -->
         <td th:text="${fileName}">Flowers</td>
-        
+
         <td class="rowIcons">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
-              viewBox="0 0 16 16" >
-              <path
-                d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-            </svg>
+            viewBox="0 0 16 16">
+            <path
+              d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+          </svg>
           <div>-</div>
-          </td>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -127,17 +135,17 @@
   <div class="player">
     <h1 id="songname"></h1>
     <button onclick="playPrev()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" transform="rotate(180)" class="bi bi-play"
-        viewBox="0 0 16 16" onclick=>
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" transform="rotate(180)"
+        class="bi bi-play" viewBox="0 0 16 16" onclick=>
         <path
           d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
       </svg></button>
-      <div id="player"></div>
-    <button onclick="playNext()"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
-      viewBox="0 0 16 16" onclick=>
-      <path
-        d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-    </svg></button>
+    <div id="player"></div>
+    <button onclick="playNext()"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954"
+        class="bi bi-play" viewBox="0 0 16 16" onclick=>
+        <path
+          d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+      </svg></button>
   </div>
 </body>
 <!-- <body class="bg-[#212121]">
@@ -236,32 +244,57 @@
 
   }
 
-  function deletefromQueue(row) {
-  var name = row.cells[0].textContent;
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/deletefromqueue', true);
-  xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
+  function clearQueue() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/clearqueue', true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
 
-  // handle the response from the server
-  xhr.onload = function() {
-    if (xhr.status >= 200 && xhr.status < 400) {
-      // handle success
-      var response = xhr.responseText;
-      console.log(response);
-    } else {
+    // handle the response from the server
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 400) {
+        // handle success
+        var response = xhr.responseText;
+        console.log(response);
+      } else {
+        // handle error
+        console.log(xhr.status);
+      }
+    };
+
+    // handle the request error
+    xhr.onerror = function () {
       // handle error
-      console.log(xhr.status);
-    }
-  };
+      console.log("Error");
+    };
 
-  // handle the request error
-  xhr.onerror = function() {
-    // handle error
-    console.log("Error");
-  };
+    xhr.send();
+  }
+  function deletefromQueue(row) {
+    var name = row.cells[0].textContent;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/deletefromqueue', true);
+    xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
 
-  xhr.send(name);
-}
+    // handle the response from the server
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 400) {
+        // handle success
+        var response = xhr.responseText;
+        console.log(response);
+      } else {
+        // handle error
+        console.log(xhr.status);
+      }
+    };
+
+    // handle the request error
+    xhr.onerror = function () {
+      // handle error
+      console.log("Error");
+    };
+
+    xhr.send(name);
+  }
 
 
 </script>

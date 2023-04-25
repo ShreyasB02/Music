@@ -80,8 +80,6 @@ public class UserController {
      public String addToQueue(@RequestBody String song, HttpSession session){  
          System.out.println("User: "+ (String)session.getAttribute("username"));
          User u = userRepository.findByUsername((String)session.getAttribute("username"));
-         List<String> q = u.getQueue();
-         q.add(song);
          u.getQueue().add(song);
          session.setAttribute("userque", u.getQueue());
          userRepository.save(u);
@@ -91,9 +89,16 @@ public class UserController {
      public String deletefromQueue(@RequestBody String song, HttpSession session){  
          System.out.println("User: "+ (String)session.getAttribute("username"));
          User u = userRepository.findByUsername((String)session.getAttribute("username"));
-         List<String> q = u.getQueue();
-         q.remove(song);
          u.getQueue().remove(song);
+         session.setAttribute("userque", u.getQueue());
+         userRepository.save(u);
+         return "redirect:/";
+     }
+     @PostMapping("/clearqueue")
+     public String clearQueue(HttpSession session){  
+         System.out.println("User: Cleared"+ (String)session.getAttribute("username"));
+         User u = userRepository.findByUsername((String)session.getAttribute("username"));
+         u.getQueue().clear();
          session.setAttribute("userque", u.getQueue());
          userRepository.save(u);
          return "redirect:/";
