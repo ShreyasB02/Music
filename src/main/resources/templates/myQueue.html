@@ -88,6 +88,10 @@
   audio {
     background-color: transparent;
   }
+  .rowIcons{
+    display: flex;
+    font-size: 2rem;
+  }
 </style>
 
 <body>
@@ -104,15 +108,18 @@
     <h1 class="playlist-header">Current Queue</h1>
     <hr />
     <table>
-      <tr th:each="fileName : ${session.userque}" onclick="getRowText(this)">
+      <tr th:each="fileName : ${session.userque}" onclick="getRowText(this)" ondblclick="deletefromQueue(this)">
       <!-- <tr th:each="fileName : ${SongFileNames}" onclick="getRowText(this)"> -->
         <td th:text="${fileName}">Flowers</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
-            viewBox="0 0 16 16" onclick=>
-            <path
-              d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-          </svg>
-        </td>
+        
+        <td class="rowIcons">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1DB954" class="bi bi-play"
+              viewBox="0 0 16 16" >
+              <path
+                d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+            </svg>
+          <div>-</div>
+          </td>
       </tr>
       </tbody>
     </table>
@@ -228,5 +235,33 @@
     songname.innerHTML = name;
 
   }
+
+  function deletefromQueue(row) {
+  var name = row.cells[0].textContent;
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/deletefromqueue', true);
+  xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
+
+  // handle the response from the server
+  xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 400) {
+      // handle success
+      var response = xhr.responseText;
+      console.log(response);
+    } else {
+      // handle error
+      console.log(xhr.status);
+    }
+  };
+
+  // handle the request error
+  xhr.onerror = function() {
+    // handle error
+    console.log("Error");
+  };
+
+  xhr.send(name);
+}
+
 
 </script>
