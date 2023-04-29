@@ -38,7 +38,8 @@ Our Project aims to build a Music player app using Java. We intend to deploy it 
 * Genre
 
 ## Class Diagram:
-![Class_Diagram](https://drive.google.com/file/d/1REPBkHwJdzDO9ZF4YShJdsm4bJ85EGd3/view?usp=sharing)
+![Class_Diagram](https://github.com/ShreyasB02/Music/blob/master/classdiag.png?raw=true)
+
 
 ## Activity Diagram:
-![Activity_Diagram](https://drive.google.com/file/d/1gjJj8rpCxw8xJvkpG6t7x2PULnV1vgiW/view?usp=sharing)
+![Activity_Diagram](https://github.com/ShreyasB02/Music/blob/master/activitydiag.png?raw=true)
